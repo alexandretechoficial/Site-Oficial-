@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot de Sinais I.A - Alexandre Tech</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            color: #000000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .price-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px auto;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        .current-price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 10px 0;
+        }
+
+        .discount {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .features {
+            padding: 100px 0;
+            background: #0a0a0a;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .games-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        .status-active {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+
+        .payment-methods {
+            padding: 80px 0;
+            background: #0a0a0a;
+            text-align: center;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .payment-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .testimonials {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+        }
+
+        .slider-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 600px;
+            object-fit: contain;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.8);
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .slider-nav:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .slider-dots {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active,
+        .dot:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cta-section {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        }
+
+        .cta-large {
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            color: #000000;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-large:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        footer {
+            background: #000000;
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            opacity: 0.7;
+        }
+
+        /* Responsividade Completa */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 30px;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            .cta-button {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+            }
+            
+            .hero {
+                padding: 120px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+                line-height: 1.2;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+            
+            .price-section {
+                margin: 30px auto;
+                padding: 25px 20px;
+                max-width: 350px;
+            }
+            
+            .current-price {
+                font-size: 2.5rem;
+            }
+            
+            .cta-large {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+                margin: 15px 10px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .feature-card {
+                padding: 30px 20px;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 20px;
+            }
+            
+            .game-card {
+                padding: 25px 15px;
+            }
+            
+            .game-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                max-width: 400px !important;
+            }
+            
+            .pricing-card.featured {
+                transform: none !important;
+                margin-top: 20px;
+            }
+            
+            .pricing-card.featured:hover {
+                transform: translateY(-5px) !important;
+            }
+            
+            .payment-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 20px;
+            }
+            
+            .payment-card {
+                padding: 25px 15px;
+            }
+            
+            .slider-nav {
+                display: none;
+            }
+            
+            .slide img {
+                height: 400px;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px 4px !important;
+            }
+            
+            .scroll-indicator {
+                margin-top: 40px !important;
+            }
+            
+            .scroll-indicator p {
+                font-size: 0.9rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 0.9rem;
+            }
+            
+            .price-section {
+                padding: 20px 15px;
+                max-width: 300px;
+            }
+            
+            .current-price {
+                font-size: 2rem;
+            }
+            
+            .cta-large {
+                padding: 12px 25px;
+                font-size: 1rem;
+                margin: 10px 5px;
+            }
+            
+            .features h2, .games-section h2 {
+                font-size: 2rem !important;
+            }
+            
+            .feature-card {
+                padding: 25px 15px;
+            }
+            
+            .feature-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .feature-icon {
+                font-size: 2.5rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .game-card {
+                padding: 20px 10px;
+            }
+            
+            .game-card h3 {
+                font-size: 0.95rem;
+            }
+            
+            .pricing-card {
+                padding: 30px 20px !important;
+            }
+            
+            .pricing-card h3 {
+                font-size: 1.5rem !important;
+            }
+            
+            .pricing-card div[style*="font-size: 3rem"] {
+                font-size: 2.2rem !important;
+            }
+            
+            .pricing-card div[style*="font-size: 3.5rem"] {
+                font-size: 2.5rem !important;
+            }
+            
+            .payment-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .payment-card h3 {
+                font-size: 1rem;
+            }
+            
+            .payment-icon {
+                font-size: 2rem;
+            }
+            
+            .slide img {
+                height: 300px;
+            }
+            
+            table {
+                font-size: 0.7rem;
+            }
+            
+            th, td {
+                padding: 6px 2px !important;
+            }
+            
+            .scroll-indicator {
+                margin-top: 30px !important;
+            }
+            
+            .scroll-indicator div[style*="font-size: 2rem"] {
+                font-size: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .current-price {
+                font-size: 1.8rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card div[style*="font-size: 2.2rem"] {
+                font-size: 1.8rem !important;
+            }
+            
+            .pricing-card div[style*="font-size: 2.5rem"] {
+                font-size: 2rem !important;
+            }
+            
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3, #FFD700);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+
+        /* Pricing Cards Responsive */
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.07) translateY(-5px);
+        }
+
+        /* Ajustes para elementos inline */
+        .price-section div[style*="font-size"] {
+            line-height: 1.2;
+        }
+        
+        /* Botões CTA responsivos */
+        .cta-section > div > div {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .cta-section > div > div {
+                grid-template-columns: 1fr !important;
+                max-width: 400px !important;
+                gap: 15px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de progresso de scroll -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🤖 Alexandre Tech I.A</div>
+                <a href="#cta" class="cta-button">Adquirir Agora</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Bot de Sinais com I.A</h1>
+                <p>Sistema inteligente de sinais para jogos online com estratégia exclusiva Retrovisor. Análise em tempo real, precisão comprovada e suporte para 12+ jogos diferentes.</p>
+                
+                <div class="price-section">
+                    <div style="font-size: 1.1rem; margin-bottom: 10px; opacity: 0.8;">Planos a partir de:</div>
+                    <div class="current-price">R$ 59,90</div>
+                    <div style="margin: 15px 0; opacity: 0.9; font-size: 1rem;">
+                        <span style="color: #4CAF50;">• 1 Jogo: R$ 59,90</span><br>
+                        <span style="color: #2196F3;">• 2 Jogos: R$ 79,90</span><br>
+                        <span style="color: #FFD700; font-weight: bold;">• TODOS (12): R$ 120,00</span>
+                    </div>
+                    <div class="discount">🎯 Escolha quantos jogos precisar!</div>
+                </div>
+                
+                <a href="#cta" class="cta-large pulse">🚀 Começar Agora</a>
+                
+                <!-- Seta animada para descer -->
+                <div class="scroll-indicator" style="margin-top: 60px; animation: bounce 2s infinite;">
+                    <div style="text-align: center; opacity: 0.8; margin-bottom: 10px;">
+                        <p style="font-size: 1rem; margin-bottom: 5px;">👇 Veja os resultados reais dos clientes</p>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">Depoimentos + Formas de pagamento</p>
+                    </div>
+                    <div style="font-size: 2rem; text-align: center;">⬇️</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>Por que escolher nosso sistema?</h2>
+                    <div style="text-align: center; margin-bottom: 40px; padding: 20px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.3);">
+            <p style="font-size: 1.1rem; margin-bottom: 10px;">🔥 <strong>ATENÇÃO:</strong> Mais de <strong style="color: #FFD700;">50+ clientes</strong> já estão lucrando!</p>
+            <p style="opacity: 0.9;">Continue lendo para ver os <strong>resultados reais</strong> e <strong>depoimentos</strong> 👇</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Estratégia Retrovisor</h3>
+                <p>Algoritmo exclusivo que analisa padrões históricos para predizer próximos resultados com alta precisão.</p>
+            </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Sinais em Tempo Real</h3>
+                    <p>Receba sinais instantâneos via Telegram com análise de probabilidade e força do padrão identificado.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Sistema Gale 1</h3>
+                    <p>Proteção inteligente até Gale 1 com sistema de recuperação seguro para maximizar seus resultados.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Análise Avançada</h3>
+                    <p>Matriz de transição, análise de volatilidade e detecção de padrões para decisões mais assertivas.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>12+ Jogos Suportados</h3>
+                    <p>Funciona com Baccarat, Dragon Tiger, Football Studio, Super Trunfo e muito mais.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Interface Intuitiva</h3>
+                    <p>Bot no Telegram simples de usar, com comandos diretos e interface amigável para todos os níveis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="games-section">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 30px;">Jogos Suportados</h2>
+            <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">Nosso sistema funciona com os principais jogos de cassino online</p>
+            
+            <div style="text-align: center; margin-bottom: 40px; padding: 15px; background: rgba(33, 150, 243, 0.1); border-radius: 15px; border: 1px solid rgba(33, 150, 243, 0.3);">
+                <p style="font-size: 1rem; margin-bottom: 5px;">💡 <strong>Dica:</strong> Quanto mais jogos, maior o potencial de lucro!</p>
+                <p style="opacity: 0.8; font-size: 0.9rem;">Veja abaixo os <strong>preços flexíveis</strong> e escolha seu plano 👇</p>
+            </div>
+            
+            <div class="games-grid">
+                <div class="game-card">
+                    <h3>🎯 Bac Bo</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>🎰 Mega Sic Bac</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>⚽ Football Studio</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>🎴 Baccarat A</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>🎲 Sic Bo Pragmatic</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>🃏 Baccarat 1</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>🐉 Dragon Tiger</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>🔥 Double Blaze</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>⚡ Mega Roleta</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>🇧🇷 Bac Bo Brasileiro</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>⚽ Football Studio Dice</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+                
+                <div class="game-card">
+                    <h3>🎯 Super Trunfo</h3>
+                    <div class="game-status status-active">🟢 Ativo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-plans" style="padding: 100px 0; background: #0a0a0a;">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 30px; background: linear-gradient(45deg, #ffffff, #cccccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Escolha seu Plano Ideal</h2>
+            <p style="text-align: center; margin-bottom: 50px; opacity: 0.8; font-size: 1.2rem;">Pague apenas pelos jogos que você realmente usa</p>
+            
+            <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto;">
+                
+                <!-- Plano 1 Jogo -->
+                <div class="pricing-card" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; transition: all 0.3s ease;">
+                    <div style="background: linear-gradient(45deg, #4CAF50, #45a049); color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; display: inline-block; margin-bottom: 20px;">🎯 INICIANTE</div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 10px;">1 Jogo</h3>
+                    <div style="font-size: 3rem; font-weight: bold; color: #ffffff; margin: 20px 0;">R$ 59,90</div>
+                    <p style="opacity: 0.7; margin-bottom: 30px;">Escolha qualquer jogo disponível</p>
+                    <ul style="list-style: none; text-align: left; margin-bottom: 30px; padding-left: 0;">
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Acesso a 1 jogo</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Sinais em tempo real</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Sistema Gale 1</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Suporte incluso</li>
+                    </ul>
+                    <a href="https://t.me/alexandre_tech" style="background: linear-gradient(45deg, #ffffff, #f0f0f0); color: #000000; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Adquirir Agora</a>
+                </div>
+
+                <!-- Plano 2 Jogos -->
+                <div class="pricing-card" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; transition: all 0.3s ease;">
+                    <div style="background: linear-gradient(45deg, #2196F3, #1976D2); color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; display: inline-block; margin-bottom: 20px;">💎 POPULAR</div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 10px;">2 Jogos</h3>
+                    <div style="font-size: 3rem; font-weight: bold; color: #ffffff; margin: 20px 0;">R$ 79,90</div>
+                    <p style="opacity: 0.7; margin-bottom: 10px;">Economize R$ 39,90</p>
+                    <p style="opacity: 0.5; margin-bottom: 20px; font-size: 0.9rem;">Cada jogo sai por R$ 39,95</p>
+                    <ul style="list-style: none; text-align: left; margin-bottom: 30px; padding-left: 0;">
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Acesso a 2 jogos</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Sinais em tempo real</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Sistema Gale 1</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Análise avançada</li>
+                    </ul>
+                    <a href="https://t.me/alexandre_tech" style="background: linear-gradient(45deg, #2196F3, #1976D2); color: #ffffff; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Adquirir Agora</a>
+                </div>
+
+                <!-- Plano Flexível 3-9 Jogos -->
+                <div class="pricing-card" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; transition: all 0.3s ease;">
+                    <div style="background: linear-gradient(45deg, #FF9800, #F57C00); color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; display: inline-block; margin-bottom: 20px;">🔥 FLEXÍVEL</div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 10px;">3-9 Jogos</h3>
+                    <div style="font-size: 2.2rem; font-weight: bold; color: #ffffff; margin: 20px 0;">R$ 89,90 - R$ 119,90</div>
+                    <p style="opacity: 0.7; margin-bottom: 10px;">Preço conforme quantidade</p>
+                    <p style="opacity: 0.5; margin-bottom: 20px; font-size: 0.9rem;">Quanto mais jogos, menor o preço unitário</p>
+                    <ul style="list-style: none; text-align: left; margin-bottom: 30px; padding-left: 0;">
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Escolha seus jogos</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Desconto progressivo</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Suporte prioritário</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Análise completa</li>
+                    </ul>
+                    <a href="https://t.me/alexandre_tech" style="background: linear-gradient(45deg, #FF9800, #F57C00); color: #ffffff; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Consultar Preço</a>
+                </div>
+
+                <!-- Plano Completo -->
+                <div class="pricing-card featured" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 193, 7, 0.05)); border: 2px solid #FFD700; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; transition: all 0.3s ease; transform: scale(1.05);">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: linear-gradient(45deg, #FFD700, #FFA000); color: #000; padding: 8px 25px; border-radius: 20px; font-size: 0.9rem; font-weight: bold;">⭐ MELHOR OFERTA</div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 10px; margin-top: 10px;">COMPLETO</h3>
+                    <div style="font-size: 3.5rem; font-weight: bold; color: #FFD700; margin: 20px 0;">R$ 120,00</div>
+                    <p style="opacity: 0.9; margin-bottom: 10px; font-weight: bold; color: #FFD700;">TODOS os 12 jogos</p>
+                    <p style="opacity: 0.7; margin-bottom: 20px; font-size: 0.9rem;">Apenas R$ 10 por jogo!</p>
+                    <ul style="list-style: none; text-align: left; margin-bottom: 30px; padding-left: 0;">
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Todos os 12 jogos</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Acesso completo</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Suporte premium</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Atualizações incluídas</li>
+                        <li style="margin: 10px 0; opacity: 0.9;">✅ Análise I.A completa</li>
+                    </ul>
+                    <a href="https://t.me/alexandre_tech" style="background: linear-gradient(45deg, #FFD700, #FFA000); color: #000000; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);">🚀 QUERO TUDO!</a>
+                </div>
+            </div>
+
+            <!-- Tabela de Preços Detalhada -->
+            <div style="margin-top: 80px; background: rgba(255, 255, 255, 0.02); border-radius: 20px; padding: 40px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <h3 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">📊 Tabela de Preços Completa</h3>
+                
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin: 0 auto; background: rgba(255, 255, 255, 0.02); border-radius: 10px;">
+                        <thead>
+                            <tr style="background: rgba(255, 255, 255, 0.1);">
+                                <th style="padding: 15px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">Quantidade</th>
+                                <th style="padding: 15px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">Preço Total</th>
+                                <th style="padding: 15px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">Por Jogo</th>
+                                <th style="padding: 15px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">Economia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">1 Jogo</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 59,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 59,90</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">-</td></tr>
+                            <tr style="background: rgba(33, 150, 243, 0.1);"><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">2 Jogos</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 79,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 39,95</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 39,90</td></tr>
+                            <tr><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">3 Jogos</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 89,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 29,97</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 89,80</td></tr>
+                            <tr><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">4 Jogos</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 99,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 24,98</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 139,70</td></tr>
+                            <tr><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">5 Jogos</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 104,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 20,98</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 194,60</td></tr>
+                            <tr><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">6 Jogos</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 109,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 18,32</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 249,50</td></tr>
+                            <tr><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">7 Jogos</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 114,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 16,41</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 304,40</td></tr>
+                            <tr><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">8 Jogos</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 117,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 14,74</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 361,30</td></tr>
+                            <tr><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">9 Jogos</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"><strong>R$ 119,90</strong></td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 13,32</td><td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">R$ 419,20</td></tr>
+                            <tr style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 193, 7, 0.05)); border: 1px solid #FFD700;"><td style="padding: 12px; text-align: center; font-weight: bold;">10-12 Jogos</td><td style="padding: 12px; text-align: center; font-weight: bold; color: #FFD700;"><strong>R$ 120,00</strong></td><td style="padding: 12px; text-align: center; font-weight: bold; color: #FFD700;">R$ 10,00</td><td style="padding: 12px; text-align: center; font-weight: bold; color: #FFD700;">R$ 479,00+</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                    <h4 style="color: #FFD700; margin-bottom: 15px;">💡 Dica Estratégica</h4>
+                    <p style="opacity: 0.9;">A partir de 8 jogos, compensa muito mais pegar o <strong>pacote completo</strong>!</p>
+                    <p style="opacity: 0.9;">9 jogos = R$ 119,90 vs TODOS os 12 jogos = R$ 120,00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="payment-methods">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Formas de Pagamento</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 40px; opacity: 0.9;">Facilitamos sua compra com diversas opções de pagamento</p>
+            
+            <div class="payment-grid">
+                <div class="payment-card">
+                    <div class="payment-icon">🇧🇷</div>
+                    <h3>PIX</h3>
+                    <p>Pagamento instantâneo para brasileiros</p>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">💳</div>
+                    <h3>Cartão de Crédito</h3>
+                    <p>Todas as bandeiras aceitas</p>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">🌍</div>
+                    <h3>PayPal</h3>
+                    <p>Para clientes internacionais</p>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">🏦</div>
+                    <h3>Revolut</h3>
+                    <p>Transferência internacional</p>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">💰</div>
+                    <h3>Skrill</h3>
+                    <p>Carteira digital global</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: rgba(76, 175, 80, 0.1); border-radius: 15px; border: 1px solid rgba(76, 175, 80, 0.3);">
+                <h2 style="font-size: 2.5rem; margin-bottom: 15px;">🏆 Resultados Reais dos Nossos Clientes</h2>
+                <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 10px;">
+                    <strong>ESTES SÃO RESULTADOS REAIS</strong> - Screenshots autênticos dos nossos clientes
+                </p>
+                <p style="opacity: 0.8;">👆 Use as setas para ver mais depoimentos | 👆 Clique nos pontos para navegar</p>
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider" id="testimonialSlider">
+                    <!-- Feedback 1: Pablo - R$ 350 -->
+                    <div class="slide">
+                        <img src="pablo.jpg" alt="Feedback Pablo - R$ 350">
+                    </div>
+                    
+                    <!-- Feedback 2: Ganhos múltiplos - Alexandre Chat -->
+                    <div class="slide">
+                        <img src="ganhos.jpg" alt="Feedback Ganhos Múltiplos">
+                    </div>
+                    
+                    <!-- Feedback 3: Luis Rocha - €250 -->
+                    <div class="slide">
+                        <img src="luis.jpg" alt="Feedback Luis Rocha">
+                    </div>
+                    
+                    <!-- Feedback 4: R$ 10.000 -->
+                    <div class="slide">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAMgAoADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKAP/2Q==" alt="Feedback R$ 10.000">
+                    </div>
+                    
+                    <!-- Feedback 5: Igor - R$ 600 -->
+                    <div class="slide">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAMgAoADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKAP/2Q==" alt="Feedback Igor R$ 600">
+                    </div>
+                    
+                    <!-- Feedback 6: Colossal - R$ 2.975 -->
+                    <div class="slide">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAMgAoADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKAP/2Q==" alt="Feedback Colossal">
+                    </div>
+                    
+                    <!-- Feedback 7: José Carlos - R$ 4.335 e R$ 1.120 -->
+                    <div class="slide">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAMgAoADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKAP/2Q==" alt="Feedback José Carlos">
+                    </div>
+                    
+                    <!-- Feedback 8: Paulinha - Gestão -->
+                    <div class="slide">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAMgAoADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKAP/2Q==" alt="Feedback Paulinha">
+                    </div>
+                </div>
+                
+                <button class="slider-nav prev" onclick="changeSlide(-1)">❮</button>
+                <button class="slider-nav next" onclick="changeSlide(1)">❯</button>
+                
+                <div class="slider-dots">
+                    <span class="dot active" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                    <span class="dot" onclick="currentSlide(5)"></span>
+                    <span class="dot" onclick="currentSlide(6)"></span>
+                    <span class="dot" onclick="currentSlide(7)"></span>
+                    <span class="dot" onclick="currentSlide(8)"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <h2 style="font-size: 2.8rem; margin-bottom: 30px;">Pronto para começar?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 40px; opacity: 0.9;">Escolha o plano ideal para você e comece a lucrar hoje mesmo!</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto 40px;">
+                <!-- CTA 1 Jogo -->
+                <div class="price-section" style="margin: 0;">
+                    <div style="background: linear-gradient(45deg, #4CAF50, #45a049); color: white; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px;">🎯 TESTE</div>
+                    <div style="font-size: 2.2rem; font-weight: bold; color: #ffffff; margin: 10px 0;">R$ 59,90</div>
+                    <div style="opacity: 0.7; margin-bottom: 15px;">1 jogo à sua escolha</div>
+                    <a href="https://t.me/alexandre_tech" class="cta-large" style="margin: 10px 0; font-size: 1rem; padding: 15px 25px;">Começar com 1 Jogo</a>
+                </div>
+                
+                <!-- CTA 2 Jogos -->
+                <div class="price-section" style="margin: 0; border: 2px solid #2196F3;">
+                    <div style="background: linear-gradient(45deg, #2196F3, #1976D2); color: white; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px;">💎 POPULAR</div>
+                    <div style="font-size: 2.2rem; font-weight: bold; color: #ffffff; margin: 10px 0;">R$ 79,90</div>
+                    <div style="opacity: 0.7; margin-bottom: 15px;">2 jogos + economia R$ 39,90</div>
+                    <a href="https://t.me/alexandre_tech" class="cta-large" style="margin: 10px 0; font-size: 1rem; padding: 15px 25px; background: linear-gradient(45deg, #2196F3, #1976D2);">Quero 2 Jogos</a>
+                </div>
+                
+                <!-- CTA Completo -->
+                <div class="price-section" style="margin: 0; border: 2px solid #FFD700; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 193, 7, 0.05));">
+                    <div style="background: linear-gradient(45deg, #FFD700, #FFA000); color: #000; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px; font-weight: bold;">⭐ MELHOR</div>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #FFD700; margin: 10px 0;">R$ 120,00</div>
+                    <div style="opacity: 0.9; margin-bottom: 15px; color: #FFD700; font-weight: bold;">TODOS os 12 jogos!</div>
+                    <a href="https://t.me/alexandre_tech" class="cta-large" style="margin: 10px 0; font-size: 1rem; padding: 15px 25px; background: linear-gradient(45deg, #FFD700, #FFA000); color: #000;">🚀 QUERO TUDO!</a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; opacity: 0.7;">
+                <p>✅ Acesso imediato após pagamento</p>
+                <p>✅ Suporte técnico incluído</p>
+                <p>✅ Atualizações incluídas</p>
+                <p>✅ Sistema Gale 1 seguro</p>
+                <p style="margin-top: 20px; font-size: 1.1rem; font-weight: bold; color: #FFD700;">
+                    💡 <strong>Dica:</strong> 3+ jogos? Consulte preços especiais no Telegram!
+                </p>
+                <p style="margin-top: 20px; font-size: 0.9rem;">
+                    💳 <strong>Formas de pagamento:</strong> PIX, Cartão de Crédito, PayPal, Revolut, Skrill
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Alexandre Tech I.A - Todos os direitos reservados</p>
+                <p>Sistema desenvolvido com tecnologia avançada de inteligência artificial</p>
+                <p style="margin-top: 20px;">
+                    📱 Contato: <a href="https://t.me/alexandre_tech" style="color: #ffffff;">@alexandre_tech</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Efeito de fade in nos elementos quando aparecem na tela
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Aplicar animação aos cards
+        document.querySelectorAll('.feature-card, .game-card, .payment-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Slider functionality
+        let slideIndex = 1;
+        showSlide(slideIndex);
+
+        function changeSlide(n) {
+            showSlide(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlide(slideIndex = n);
+        }
+
+        function showSlide(n) {
+            const slider = document.getElementById('testimonialSlider');
+            const dots = document.getElementsByClassName('dot');
+            const slides = document.getElementsByClassName('slide');
+            
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            slider.style.transform = `translateX(-${(slideIndex-1) * 100}%)`;
+            
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.remove('active');
+            }
+            
+            if (dots[slideIndex-1]) {
+                dots[slideIndex-1].classList.add('active');
+            }
+        }
+
+        // Auto slide every 5 seconds
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+
+        // Barra de progresso de scroll
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.offsetHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+
+        // Scroll suave para elementos com seta
+        document.querySelectorAll('.scroll-indicator').forEach(indicator => {
+            indicator.addEventListener('click', () => {
+                const nextSection = indicator.closest('section').nextElementSibling;
+                if (nextSection) {
+                    nextSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+            indicator.style.cursor = 'pointer';
+        });
+    </script>
+</body>
+</html> 

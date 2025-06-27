@@ -602,6 +602,26 @@
             .scroll-indicator div[style*="font-size: 2rem"] {
                 font-size: 1.5rem !important;
             }
+            
+            /* Responsividade para novas seções */
+            .floating-telegram {
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 20px !important;
+                bottom: 15px !important;
+                right: 15px !important;
+            }
+            
+            .loading-overlay .progress-bar {
+                width: 90% !important;
+                max-width: 250px !important;
+            }
+            
+            /* Comparação mobile */
+            div[style*="display: grid; grid-template-columns: 1fr 1fr; gap: 20px"] {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
         }
 
         @media (max-width: 360px) {
@@ -632,6 +652,103 @@
 
         .pulse {
             animation: pulse 2s infinite;
+        }
+
+        /* Botão Flutuante do Telegram */
+        .floating-telegram {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: linear-gradient(45deg, #0088cc, #0077b3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-telegram:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 136, 204, 0.7);
+        }
+
+        .floating-telegram::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 15px;
+            height: 15px;
+            background: #ff4444;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            width: 300px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 5px;
         }
 
         @keyframes pulse {
@@ -699,6 +816,28 @@
                 max-width: 400px !important;
                 gap: 15px !important;
             }
+            
+            /* Responsividade para modais de PIX */
+            .modal-container {
+                padding: 10px !important;
+            }
+            
+            .modal-content {
+                padding: 20px !important;
+                max-width: 90% !important;
+            }
+            
+            /* Botões de pagamento responsivos */
+            .payment-buttons {
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+            
+            .payment-buttons a,
+            .payment-buttons button {
+                width: 100% !important;
+                margin: 5px 0 !important;
+            }
         }
     </style>
 </head>
@@ -749,7 +888,42 @@
     <section class="features">
         <div class="container">
             <h2>Por que escolher nosso sistema?</h2>
-                    <div style="text-align: center; margin-bottom: 40px; padding: 20px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                    <!-- Comparação com Concorrentes -->
+        <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(67, 160, 71, 0.05)); border: 2px solid #4CAF50; border-radius: 20px; padding: 30px; margin-bottom: 40px;">
+            <h3 style="text-align: center; color: #4CAF50; margin-bottom: 25px; font-size: 1.8rem;">📊 POR QUE SOMOS DIFERENTES?</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="background: rgba(244, 67, 54, 0.1); padding: 20px; border-radius: 15px; border: 1px solid rgba(244, 67, 54, 0.3);">
+                    <h4 style="color: #F44336; margin-bottom: 15px; text-align: center;">❌ OUTROS BOTS</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 8px 0; opacity: 0.9;">📉 40-60% de precisão</li>
+                        <li style="margin: 8px 0; opacity: 0.9;">🤖 Sinais genéricos/fixos</li>
+                        <li style="margin: 8px 0; opacity: 0.9;">⚠️ Gale até 3 ou mais</li>
+                        <li style="margin: 8px 0; opacity: 0.9;">📊 Padrões pré-definidos</li>
+                        <li style="margin: 8px 0; opacity: 0.9;">🎯 Não se adapta à mesa</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(76, 175, 80, 0.1); padding: 20px; border-radius: 15px; border: 1px solid rgba(76, 175, 80, 0.3);">
+                    <h4 style="color: #4CAF50; margin-bottom: 15px; text-align: center;">✅ NOSSO SISTEMA</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 8px 0; opacity: 0.9;">📈 +75% de precisão comprovada</li>
+                        <li style="margin: 8px 0; opacity: 0.9;">🧠 I.A adaptativa em tempo real</li>
+                        <li style="margin: 8px 0; opacity: 0.9;">🛡️ Seguro: apenas Gale 1</li>
+                        <li style="margin: 8px 0; opacity: 0.9;">⚡ Adapta-se ao momento da mesa</li>
+                        <li style="margin: 8px 0; opacity: 0.9;">🎯 Inteligência que evolui</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="background: rgba(255, 215, 0, 0.1); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.3); text-align: center;">
+                <h4 style="color: #FFD700; margin-bottom: 10px;">🚀 DIFERENCIAL EXCLUSIVO</h4>
+                <p style="margin-bottom: 10px; font-weight: bold;">Nossa I.A não segue padrões fixos!</p>
+                <p style="opacity: 0.9;">Sistema analisa tendências da mesa em tempo real e se adapta automaticamente para maximizar seus ganhos com segurança.</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 40px; padding: 20px; background: rgba(255, 215, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.3);">
             <p style="font-size: 1.1rem; margin-bottom: 10px;">🔥 <strong>ATENÇÃO:</strong> Mais de <strong style="color: #FFD700;">50+ clientes</strong> já estão lucrando!</p>
             <p style="opacity: 0.9;">Continue lendo para ver os <strong>resultados reais</strong> e <strong>depoimentos</strong> 👇</p>
         </div>
@@ -887,7 +1061,7 @@
                         <li style="margin: 10px 0; opacity: 0.9;">✅ Sistema Gale 1</li>
                         <li style="margin: 10px 0; opacity: 0.9;">✅ Suporte incluso</li>
                     </ul>
-                    <a href="https://t.me/alexandre_tech" style="background: linear-gradient(45deg, #ffffff, #f0f0f0); color: #000000; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Adquirir Agora</a>
+                    <button onclick="showAllPaymentOptions()" style="background: linear-gradient(45deg, #ffffff, #f0f0f0); color: #000000; padding: 15px 30px; border-radius: 30px; border: none; cursor: pointer; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Ver Pagamentos</button>
                 </div>
 
                 <!-- Plano 2 Jogos -->
@@ -903,7 +1077,7 @@
                         <li style="margin: 10px 0; opacity: 0.9;">✅ Sistema Gale 1</li>
                         <li style="margin: 10px 0; opacity: 0.9;">✅ Análise avançada</li>
                     </ul>
-                    <a href="https://t.me/alexandre_tech" style="background: linear-gradient(45deg, #2196F3, #1976D2); color: #ffffff; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Adquirir Agora</a>
+                    <button onclick="showAllPaymentOptions()" style="background: linear-gradient(45deg, #2196F3, #1976D2); color: #ffffff; padding: 15px 30px; border-radius: 30px; border: none; cursor: pointer; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Ver Pagamentos</button>
                 </div>
 
                 <!-- Plano Flexível 3-9 Jogos -->
@@ -919,7 +1093,7 @@
                         <li style="margin: 10px 0; opacity: 0.9;">✅ Suporte prioritário</li>
                         <li style="margin: 10px 0; opacity: 0.9;">✅ Análise completa</li>
                     </ul>
-                    <a href="https://t.me/alexandre_tech" style="background: linear-gradient(45deg, #FF9800, #F57C00); color: #ffffff; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Consultar Preço</a>
+                    <button onclick="showAllPaymentOptions()" style="background: linear-gradient(45deg, #FF9800, #F57C00); color: #ffffff; padding: 15px 30px; border-radius: 30px; border: none; cursor: pointer; font-weight: bold; display: inline-block; transition: all 0.3s ease;">Ver Pagamentos</button>
                 </div>
 
                 <!-- Plano Completo -->
@@ -936,7 +1110,7 @@
                         <li style="margin: 10px 0; opacity: 0.9;">✅ Atualizações incluídas</li>
                         <li style="margin: 10px 0; opacity: 0.9;">✅ Análise I.A completa</li>
                     </ul>
-                    <a href="https://t.me/alexandre_tech" style="background: linear-gradient(45deg, #FFD700, #FFA000); color: #000000; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);">🚀 QUERO TUDO!</a>
+                    <button onclick="showAllPaymentOptions()" style="background: linear-gradient(45deg, #FFD700, #FFA000); color: #000000; padding: 15px 30px; border-radius: 30px; border: none; cursor: pointer; font-weight: bold; display: inline-block; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);">🚀 Ver Pagamentos</button>
                 </div>
             </div>
 
@@ -981,7 +1155,18 @@
     <section class="payment-methods">
         <div class="container">
             <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Formas de Pagamento</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 40px; opacity: 0.9;">Facilitamos sua compra com diversas opções de pagamento</p>
+            <p style="font-size: 1.2rem; margin-bottom: 20px; opacity: 0.9;">Facilitamos sua compra com diversas opções de pagamento</p>
+            
+            <!-- Destaque para plano de R$ 59,90 -->
+            <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(67, 160, 71, 0.05)); border: 2px solid #4CAF50; border-radius: 20px; padding: 25px; margin-bottom: 40px; text-align: center;">
+                <h3 style="color: #4CAF50; margin-bottom: 15px;">🎯 OFERTA ESPECIAL - R$ 59,90</h3>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Pagamento direto disponível para o plano de 1 jogo!</p>
+                <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                    <a href="https://pay.infinitepay.io/alexandre-tech/VC1D-2tmac419J3-59,90" style="background: linear-gradient(45deg, #4CAF50, #45a049); color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 0.95rem;">💳 Cartão</a>
+                    <button onclick="showPixPayment('59.90')" style="background: linear-gradient(45deg, #FF9800, #F57C00); color: white; padding: 12px 25px; border-radius: 25px; border: none; cursor: pointer; font-weight: bold; font-size: 0.95rem;">🇧🇷 PIX</button>
+                    <button onclick="showInternationalPayment('59.90')" style="background: linear-gradient(45deg, #2196F3, #1976D2); color: white; padding: 12px 25px; border-radius: 25px; border: none; cursor: pointer; font-weight: bold; font-size: 0.95rem;">🌍 Internacional</button>
+                </div>
+            </div>
             
             <div class="payment-grid">
                 <div class="payment-card">
@@ -1012,6 +1197,16 @@
                     <div class="payment-icon">💰</div>
                     <h3>Skrill</h3>
                     <p>Carteira digital global</p>
+                </div>
+            </div>
+            
+            <!-- Nota sobre outros valores -->
+            <div style="background: rgba(33, 150, 243, 0.1); border: 1px solid rgba(33, 150, 243, 0.3); border-radius: 15px; padding: 20px; margin-top: 40px; text-align: center;">
+                <h4 style="color: #2196F3; margin-bottom: 15px;">💰 Mais opções de pagamento disponíveis</h4>
+                <p style="opacity: 0.9; margin-bottom: 15px;">Temos valores para todos os planos: R$ 89,90 | R$ 99,90 | R$ 104,90 | R$ 109,90 | R$ 117,90</p>
+                <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                    <button onclick="showAllPaymentOptions()" style="background: #4CAF50; color: white; padding: 12px 25px; border-radius: 20px; border: none; cursor: pointer; font-weight: bold;">💳 Ver Todos Pagamentos</button>
+                    <a href="https://t.me/alexandre_tech" style="background: #2196F3; color: white; padding: 12px 25px; border-radius: 20px; text-decoration: none; font-weight: bold;">💬 Contactar Suporte</a>
                 </div>
             </div>
         </div>
@@ -1095,10 +1290,15 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto 40px;">
                 <!-- CTA 1 Jogo -->
                 <div class="price-section" style="margin: 0;">
-                    <div style="background: linear-gradient(45deg, #4CAF50, #45a049); color: white; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px;">🎯 TESTE</div>
+                    <div style="background: linear-gradient(45deg, #4CAF50, #45a049); color: white; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px;">🎯 INICIANTE</div>
                     <div style="font-size: 2.2rem; font-weight: bold; color: #ffffff; margin: 10px 0;">R$ 59,90</div>
                     <div style="opacity: 0.7; margin-bottom: 15px;">1 jogo à sua escolha</div>
-                    <a href="https://t.me/alexandre_tech" class="cta-large" style="margin: 10px 0; font-size: 1rem; padding: 15px 25px;">Começar com 1 Jogo</a>
+                    
+                    <div style="margin: 15px 0; display: flex; flex-direction: column; gap: 8px;">
+                        <a href="https://pay.infinitepay.io/alexandre-tech/VC1D-2tmac419J3-59,90" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #4CAF50, #45a049);">💳 Cartão</a>
+                        <button onclick="showPixPayment('59.90')" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #FF9800, #F57C00); border: none; cursor: pointer;">🇧🇷 PIX</button>
+                        <button onclick="showInternationalPayment('59.90')" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #2196F3, #1976D2); border: none; cursor: pointer;">🌍 Internacional</button>
+                    </div>
                 </div>
                 
                 <!-- CTA 2 Jogos -->
@@ -1106,7 +1306,12 @@
                     <div style="background: linear-gradient(45deg, #2196F3, #1976D2); color: white; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px;">💎 POPULAR</div>
                     <div style="font-size: 2.2rem; font-weight: bold; color: #ffffff; margin: 10px 0;">R$ 79,90</div>
                     <div style="opacity: 0.7; margin-bottom: 15px;">2 jogos + economia R$ 39,90</div>
-                    <a href="https://t.me/alexandre_tech" class="cta-large" style="margin: 10px 0; font-size: 1rem; padding: 15px 25px; background: linear-gradient(45deg, #2196F3, #1976D2);">Quero 2 Jogos</a>
+                    
+                    <div style="margin: 15px 0; display: flex; flex-direction: column; gap: 8px;">
+                        <a href="https://pay.infinitepay.io/alexandre-tech/VC1D-5nZQXCq4Jv-79,90" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #2196F3, #1976D2);">💳 Cartão</a>
+                        <button onclick="showPixPayment('79.90')" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #FF9800, #F57C00); border: none; cursor: pointer;">🇧🇷 PIX</button>
+                        <button onclick="showInternationalPayment('79.90')" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #2196F3, #1976D2); border: none; cursor: pointer;">🌍 Internacional</button>
+                    </div>
                 </div>
                 
                 <!-- CTA Completo -->
@@ -1114,7 +1319,12 @@
                     <div style="background: linear-gradient(45deg, #FFD700, #FFA000); color: #000; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px; font-weight: bold;">⭐ MELHOR</div>
                     <div style="font-size: 2.5rem; font-weight: bold; color: #FFD700; margin: 10px 0;">R$ 120,00</div>
                     <div style="opacity: 0.9; margin-bottom: 15px; color: #FFD700; font-weight: bold;">TODOS os 12 jogos!</div>
-                    <a href="https://t.me/alexandre_tech" class="cta-large" style="margin: 10px 0; font-size: 1rem; padding: 15px 25px; background: linear-gradient(45deg, #FFD700, #FFA000); color: #000;">🚀 QUERO TUDO!</a>
+                    
+                    <div style="margin: 15px 0; display: flex; flex-direction: column; gap: 8px;">
+                        <a href="https://pay.infinitepay.io/alexandre-tech/VC1D-5nZYujoSVl-120,00" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #FFD700, #FFA000); color: #000;">💳 Cartão</a>
+                        <button onclick="showPixPayment('120.00')" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #FF9800, #F57C00); border: none; cursor: pointer;">🇧🇷 PIX</button>
+                        <button onclick="showInternationalPayment('120.00')" class="cta-large" style="margin: 3px 0; font-size: 0.85rem; padding: 10px 18px; background: linear-gradient(45deg, #2196F3, #1976D2); border: none; cursor: pointer;">🌍 Internacional</button>
+                    </div>
                 </div>
             </div>
             
@@ -1132,6 +1342,23 @@
             </div>
         </div>
     </section>
+
+    <!-- Botão Flutuante do Telegram -->
+    <button class="floating-telegram" onclick="openTelegram()" title="💬 Fale conosco no Telegram">
+        📱
+    </button>
+
+    <!-- Loading Screen -->
+    <div class="loading-overlay" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3 style="margin-bottom: 20px;">Processando seu pedido...</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="loadingText">Conectando com o servidor de pagamentos...</p>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
@@ -1215,6 +1442,230 @@
             changeSlide(1);
         }, 5000);
 
+        // Dados de pagamento
+        const paymentData = {
+            '59.90': {
+                cardLink: 'https://pay.infinitepay.io/alexandre-tech/VC1D-2tmac419J3-59,90',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te520400005303986540559.905802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCC1nV3lIhXDeHuK02I2Bup36304765A'
+            },
+            '79.90': {
+                cardLink: 'https://pay.infinitepay.io/alexandre-tech/VC1D-5nZQXCq4Jv-79,90',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te520400005303986540579.905802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCC9iLTP7UrQyTHfAgsWWkU86304DE98'
+            },
+            '89.90': {
+                cardLink: 'https://pay.infinitepay.io/alexandre-tech/VC1D-ZxLU5fTfl-89,90',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te520400005303986540589.905802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCCPqBHJYGE8rWfdvzVqvtv0630495B7'
+            },
+            '99.90': {
+                cardLink: 'https://pay.infinitepay.io/alexandre-tech/VC1D-xvZzKBFSp-99,90',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te520400005303986540599.905802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCCAZxY1yWU1PmP7cZguFjnt6304CA87'
+            },
+            '104.90': {
+                cardLink: 'https://pay.infinitepay.io/alexandre-tech/VC1D-5nZUx5N55D-104,90',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te5204000053039865406104.905802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCCPS4woIF5K2hY3j7DFLLsA6304021F'
+            },
+            '109.90': {
+                cardLink: 'https://pay.infinitepay.io/alexandre-tech/VC1D-1RtNPKDJ7h-109,90',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te5204000053039865406109.905802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCCMpOlF9IeqdDl0tmLDmI0C630462A3'
+            },
+            '117.90': {
+                cardLink: 'https://pay.infinitepay.io/alexandre-tech/VC1D-2tmlSfQeT9-117,90',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te5204000053039865406117.905802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCCuoNcePjPf1qhYwKHBQKaC6304D6A3'
+            },
+            '119.90': {
+                cardLink: 'https://t.me/alexandre_tech',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te5204000053039865406119.905802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCCuoNcePjPf1qhYwKHBQKaC6304D6A3'
+            },
+            '120.00': {
+                cardLink: 'https://pay.infinitepay.io/alexandre-tech/VC1D-5nZYujoSVl-120,00',
+                pixCode: '00020101021226700014BR.GOV.BCB.PIX0122alexandre-tech@jim.com0222Pagamento alexandre-te5204000053039865406120.005802BR5925ELIANA VITORIA TELES SANT6009ITAPARICA62290525QRCCVTrBDdx9oSFuh1n8Uo6hr63049A94'
+            }
+        };
+
+        // Função para mostrar PIX por valor específico
+        function showPixPayment(value) {
+            const data = paymentData[value];
+            if (!data) return;
+            
+            const modal = createModal();
+            modal.innerHTML = `
+                <div style="background: #1a1a1a; border-radius: 20px; padding: 30px; max-width: 500px; width: 100%; border: 2px solid #FFD700;">
+                    <h3 style="color: #FFD700; text-align: center; margin-bottom: 20px;">📱 Pagamento PIX - R$ ${value.replace('.', ',')}</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <p style="margin-bottom: 10px;"><strong>💰 Valor:</strong> R$ ${value.replace('.', ',')}</p>
+                        <p style="margin-bottom: 10px;"><strong>📧 Chave PIX:</strong> alexandre-tech@jim.com</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <p style="margin-bottom: 10px;"><strong>📋 Código PIX (Copie e cole):</strong></p>
+                        <textarea readonly style="width: 100%; height: 80px; background: #000; color: #fff; border: 1px solid #333; border-radius: 5px; padding: 10px; font-family: monospace; font-size: 12px; resize: none;">${data.pixCode}</textarea>
+                        <button onclick="copyToClipboard('${data.pixCode}')" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">📋 Copiar Código</button>
+                    </div>
+                    
+                    <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid rgba(255,215,0,0.3);">
+                        <p style="color: #FFD700; font-weight: bold; margin-bottom: 10px;">⚠️ IMPORTANTE:</p>
+                        <p style="margin-bottom: 5px;">• Após efetuar o pagamento, envie o comprovante para @alexandre_tech</p>
+                        <p style="margin-bottom: 5px;">• Ativação em até 30 minutos após confirmação</p>
+                        <p>• Informe quantos jogos deseja acessar e quais jogos</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <a href="https://t.me/alexandre_tech" style="background: #2196F3; color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; margin-right: 10px;">💬 Enviar Comprovante</a>
+                        <button onclick="closeModal()" style="background: #666; color: white; padding: 12px 25px; border-radius: 25px; border: none; cursor: pointer;">❌ Fechar</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Função para mostrar pagamentos internacionais
+        function showInternationalPayment(value) {
+            const modal = createModal();
+            const valueFloat = parseFloat(value);
+            const paypalValue = (valueFloat + 20).toFixed(2);
+            const skaillValue = (valueFloat + 27).toFixed(2);
+            const revolutValue = (valueFloat + 5).toFixed(2);
+            
+            modal.innerHTML = `
+                <div style="background: #1a1a1a; border-radius: 20px; padding: 30px; max-width: 500px; width: 100%; border: 2px solid #2196F3;">
+                    <h3 style="color: #2196F3; text-align: center; margin-bottom: 20px;">🌍 Pagamento Internacional - R$ ${value.replace('.', ',')}</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <p style="margin-bottom: 15px; color: #FFD700; font-weight: bold;">💡 Conversão para EUR/USD:</p>
+                        <p style="margin-bottom: 10px;">Para ver o valor em euros/dólares:</p>
+                        <a href="https://www.google.com/search?q=euro+hoje" target="_blank" style="color: #4CAF50; text-decoration: underline;">🔗 Consultar cotação atual</a>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="color: #4CAF50; margin-bottom: 15px;">💳 Opções de Pagamento:</h4>
+                        
+                        <div style="margin-bottom: 15px; padding: 10px; background: rgba(76,175,80,0.1); border-radius: 8px; border: 1px solid rgba(76,175,80,0.3);">
+                            <p style="margin-bottom: 5px;"><strong>🏦 Revolut</strong></p>
+                            <p style="margin-bottom: 5px;">Valor total: R$ ${revolutValue.replace('.', ',')} (R$ ${value.replace('.', ',')} + R$ 5,00 taxa)</p>
+                            <a href="https://revolut.me/alexanl1jp" target="_blank" style="color: #4CAF50; text-decoration: underline;">revolut.me/alexanl1jp</a>
+                            <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 5px;">Taxa fixa de R$ 5,00</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px; padding: 10px; background: rgba(33,150,243,0.1); border-radius: 8px; border: 1px solid rgba(33,150,243,0.3);">
+                            <p style="margin-bottom: 5px;"><strong>💙 PayPal</strong></p>
+                            <p style="margin-bottom: 5px;">Valor total: R$ ${paypalValue.replace('.', ',')} (R$ ${value.replace('.', ',')} + R$ 20,00 taxa)</p>
+                            <p style="margin-bottom: 5px;">Email: alexandredepcerqueira19@gmail.com</p>
+                            <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 5px;">Taxa fixa de R$ 20,00</p>
+                            <p style="font-size: 0.9rem; opacity: 0.8;">⚠️ Informe quantos jogos deseja e quais jogos</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px; padding: 10px; background: rgba(255,193,7,0.1); border-radius: 8px; border: 1px solid rgba(255,193,7,0.3);">
+                            <p style="margin-bottom: 5px;"><strong>💰 Skrill</strong></p>
+                            <p style="margin-bottom: 5px;">Valor total: R$ ${skaillValue.replace('.', ',')} (R$ ${value.replace('.', ',')} + R$ 27,00 taxa)</p>
+                            <p style="margin-bottom: 5px;">Email: alexandredepaulacerqueira@gmail.com</p>
+                            <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 5px;">Taxa fixa de R$ 27,00</p>
+                            <p style="font-size: 0.9rem; opacity: 0.8;">⚠️ Informe quantos jogos deseja e quais jogos</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid rgba(255,215,0,0.3);">
+                        <p style="color: #FFD700; font-weight: bold; margin-bottom: 10px;">📝 Como proceder:</p>
+                        <p style="margin-bottom: 5px;">1. Escolha a forma de pagamento acima</p>
+                        <p style="margin-bottom: 5px;">2. Efetue o pagamento no valor indicado</p>
+                        <p style="margin-bottom: 5px;">3. Envie comprovante para @alexandre_tech</p>
+                        <p style="margin-bottom: 5px;">4. Informe quantos jogos quer e quais específicos</p>
+                        <p style="color: #FFD700;">💡 Em caso de dúvidas sobre valores, me chame!</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <a href="https://t.me/alexandre_tech" style="background: #2196F3; color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; margin-right: 10px;">💬 Contactar Suporte</a>
+                        <button onclick="closeModal()" style="background: #666; color: white; padding: 12px 25px; border-radius: 25px; border: none; cursor: pointer;">❌ Fechar</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Função para mostrar todas as opções de pagamento
+        function showAllPaymentOptions() {
+            const modal = createModal();
+            modal.innerHTML = `
+                <div style="background: #1a1a1a; border-radius: 20px; padding: 30px; max-width: 600px; width: 100%; border: 2px solid #4CAF50; max-height: 90vh; overflow-y: auto;">
+                    <h3 style="color: #4CAF50; text-align: center; margin-bottom: 20px;">💳 Todas as Opções de Pagamento</h3>
+                    
+                    <div style="display: grid; gap: 15px;">
+                        ${Object.entries(paymentData).map(([value, data]) => `
+                            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                                <h4 style="color: #FFD700; margin-bottom: 10px;">R$ ${value.replace('.', ',')}</h4>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <a href="${data.cardLink}" target="_blank" style="background: #4CAF50; color: white; padding: 8px 15px; border-radius: 15px; text-decoration: none; font-size: 0.9rem;">💳 Cartão</a>
+                                    <button onclick="showPixPayment('${value}')" style="background: #FF9800; color: white; padding: 8px 15px; border-radius: 15px; border: none; cursor: pointer; font-size: 0.9rem;">🇧🇷 PIX</button>
+                                    <button onclick="showInternationalPayment('${value}')" style="background: #2196F3; color: white; padding: 8px 15px; border-radius: 15px; border: none; cursor: pointer; font-size: 0.9rem;">🌍 Internacional</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="background: rgba(33,150,243,0.1); padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid rgba(33,150,243,0.3);">
+                        <p style="color: #2196F3; font-weight: bold; margin-bottom: 10px;">📋 Tabela de Jogos por Valor:</p>
+                        <div style="font-size: 0.9rem;">
+                            <p>• R$ 59,90 = 1 jogo | R$ 79,90 = 2 jogos</p>
+                            <p>• R$ 89,90 = 3 jogos | R$ 99,90 = 4 jogos</p>
+                            <p>• R$ 104,90 = 5 jogos | R$ 109,90 = 6 jogos</p>
+                            <p>• R$ 117,90 = 7 jogos | R$ 120,00 = TODOS (12 jogos)</p>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button onclick="closeModal()" style="background: #666; color: white; padding: 12px 25px; border-radius: 25px; border: none; cursor: pointer;">❌ Fechar</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Função auxiliar para criar modal
+        function createModal() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.8); z-index: 10000; display: flex; 
+                align-items: center; justify-content: center; padding: 20px;
+            `;
+            modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+            return modal;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Criar feedback visual
+                const feedback = document.createElement('div');
+                feedback.style.cssText = `
+                    position: fixed; top: 20px; right: 20px; background: #4CAF50; 
+                    color: white; padding: 15px 20px; border-radius: 10px; z-index: 10001;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                `;
+                feedback.textContent = '✅ Código PIX copiado!';
+                document.body.appendChild(feedback);
+                
+                setTimeout(() => {
+                    if (document.body.contains(feedback)) {
+                        document.body.removeChild(feedback);
+                    }
+                }, 3000);
+            }).catch(() => {
+                alert('Erro ao copiar. Selecione o texto manualmente.');
+            });
+        }
+
+        function closeModal() {
+            const modals = document.querySelectorAll('div[style*="position: fixed"]');
+            modals.forEach(modal => {
+                if (modal.style.zIndex === '10000') {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
         // Barra de progresso de scroll
         window.addEventListener('scroll', () => {
             const scrollProgress = document.getElementById('scrollProgress');
@@ -1222,6 +1673,79 @@
             const docHeight = document.body.offsetHeight - window.innerHeight;
             const scrollPercent = (scrollTop / docHeight) * 100;
             scrollProgress.style.width = scrollPercent + '%';
+        });
+
+        // Função para abrir Telegram
+        function openTelegram() {
+            showLoadingScreen('Redirecionando para o Telegram...', () => {
+                window.open('https://t.me/alexandre_tech', '_blank');
+            });
+        }
+
+
+
+        // Loading Screen
+        function showLoadingScreen(customText = null, callback = null, duration = 3000) {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const progressFill = document.getElementById('progressFill');
+            const loadingText = document.getElementById('loadingText');
+            
+            const texts = [
+                'Conectando com o servidor de pagamentos...',
+                'Verificando disponibilidade...',
+                'Processando informações...',
+                'Redirecionando para pagamento...',
+                'Quase pronto...'
+            ];
+            
+            let currentText = 0;
+            let progress = 0;
+            
+            loadingScreen.style.display = 'flex';
+            
+            if (customText) {
+                loadingText.textContent = customText;
+            }
+            
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 25;
+                if (progress > 100) progress = 100;
+                
+                progressFill.style.width = progress + '%';
+                
+                if (!customText && currentText < texts.length - 1) {
+                    currentText++;
+                    loadingText.textContent = texts[currentText];
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        progressFill.style.width = '0%';
+                        if (callback) callback();
+                    }, 500);
+                }
+            }, duration / 10);
+        }
+
+        // Modificar links de cartão para mostrar loading
+        function modifyCardLinks() {
+            const cardLinks = document.querySelectorAll('a[href*="pay.infinitepay.io"]');
+            cardLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const originalHref = link.href;
+                    showLoadingScreen(null, () => {
+                        window.open(originalHref, '_blank');
+                    });
+                });
+            });
+        }
+
+        // Inicializar tudo quando a página carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            modifyCardLinks();
         });
 
         // Scroll suave para elementos com seta
